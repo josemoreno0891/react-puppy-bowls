@@ -21,7 +21,7 @@ export async function getPlayer(playerId){
       }
 }
 
-export async function createPlayer(playerId){
+export async function createPlayer(player){
     try {
         const response = await fetch(`${API_URL}/players`,{
             method: 'POST',
@@ -32,6 +32,16 @@ export async function createPlayer(playerId){
           });
         const result = await response.json();
         return result.data.newPlayer;
+      } catch (err) {
+        console.error(err);
+      }
+}
+
+export async function getTeams(playerId){
+    try {
+        const response = await fetch(`${API_URL}/teams`);
+        const result = await response.json();
+        return result.data.teams;
       } catch (err) {
         console.error(err);
       }

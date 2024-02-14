@@ -1,26 +1,49 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import allplayers from './components/allplayers';
-import singlePlayer from './components/singlePlayer';
-import { getPlayers } from './api';
+
+import {useState, useEffect} from 'react'
+import './App.css';
+import { getPlayers, getPlayer } from './api';
 
 function App() {
+  const [puppies, setPuppies] = useState([]);
+  //const [players, setPlayers] = useState([]);
+  const [player,setPlayer] = useState({});
+
   useEffect(() => {
-    getPlayers().then((players) => console.log(players));
-  }, [])
-  async function getAllPlayers() {
-    const players = await getPlayers();
-    console.log(players);
+    getPlayers().then((players) =>{
+      setPuppies(players);
+    });
+  },[])
+  function handlePlayerClick(playerId) {
+    getPlayer(playerId).then(setPlayer);
   }
-getAllPlayers();
   return (
     <>
-      <div>
-      Hi there!
-      </div>
+      <h1>Puppy bowl</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Breed</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {puppies.map((puppy)=> {
+            return (
+              <tr key={puppy.id}>
+                <td>{puppy.name}</td>
+                <td>{puppy.breed}</td>
+                <td>{puppy.status}</td>
+                <td>
+                  <button onClick={() => handlePlayerClick(player.id)}>View player detail</button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <dialog open={player.id}>{player.name}</dialog>
     </>
-  )
+  );
 }
-export default App
+export default App;
