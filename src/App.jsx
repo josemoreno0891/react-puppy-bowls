@@ -4,8 +4,7 @@ import './App.css';
 import { getPlayers, getPlayer } from './api';
 
 function App() {
-  const [puppies, setPuppies] = useState([]);
-  //const [players, setPlayers] = useState([]);
+  const [players, setPuppies] = useState([]);
   const [player,setPlayer] = useState({});
 
   useEffect(() => {
@@ -25,15 +24,16 @@ function App() {
             <th>Name</th>
             <th>Breed</th>
             <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {puppies.map((puppy)=> {
+          {players.map((player)=> {
             return (
-              <tr key={puppy.id}>
-                <td>{puppy.name}</td>
-                <td>{puppy.breed}</td>
-                <td>{puppy.status}</td>
+              <tr key={player.id}>
+                <td>{player.name}</td>
+                <td>{player.breed}</td>
+                <td>{player.status}</td>
                 <td>
                   <button onClick={() => handlePlayerClick(player.id)}>View player detail</button>
                 </td>
