@@ -1,23 +1,32 @@
-
 import {useState, useEffect} from 'react'
+import { getPlayers, getPlayer, deletePlayer } from './api';
+import {Player} from './components/player';
+import { PlayerDetails } from './components/PlayerDetails';
 import './App.css';
-import { getPlayers, getPlayer } from './api';
 
 function App() {
-  const [players, setPuppies] = useState([]);
-  const [player,setPlayer] = useState({});
+  const [players, setPlayers] = useState([]);
+  const [player, setPlayer] = useState({});
 
   useEffect(() => {
     getPlayers().then((players) =>{
-      setPuppies(players);
+      setPlayers(players);
     });
   },[])
   function handlePlayerClick(playerId) {
     getPlayer(playerId).then(setPlayer);
   }
+  function handlePlayerDelete(playerId) {
+    deletePlayer(playerId).then(() => {
+      getPlayers().then(players => {
+        setPlayers(players)
+      })
+    });
+  }
   return (
     <>
       <h1>Puppy bowl</h1>
+      <PlayerDetails player={player}/>
       <table>
         <thead>
           <tr>
@@ -30,19 +39,16 @@ function App() {
         <tbody>
           {players.map((player)=> {
             return (
-              <tr key={player.id}>
-                <td>{player.name}</td>
-                <td>{player.breed}</td>
-                <td>{player.status}</td>
-                <td>
-                  <button onClick={() => handlePlayerClick(player.id)}>View player detail</button>
-                </td>
-              </tr>
+              <Player
+              key={player.id}
+              player={player}
+              onClick={handlePlayerClick}
+              onDelete={handlePlayerDelete}
+              />
             );
           })}
         </tbody>
       </table>
-      <dialog open={player.id}>{player.name}</dialog>
     </>
   );
 }
