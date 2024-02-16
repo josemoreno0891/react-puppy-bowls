@@ -26,7 +26,7 @@ function App() {
   }
 
   function handleSubmit(evt) {
-    evt.preventDefauld();
+    evt.preventDefault();
     const formData = new FormData(evt.target);
     const newPlayer = Object.fromEntries(formData.fromEntries());
 
@@ -75,4 +75,4 @@ function App() {
     </>
   );
 }
-export default App;
+export default App
