@@ -4,7 +4,6 @@ export async function getPlayers(){
         const response = await fetch(`${API_URL}/players`);
         const result = await response.json();
         return result.data.players;
-
       } catch (err) {
         console.error(err);
       }
